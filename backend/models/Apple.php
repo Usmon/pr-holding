@@ -12,5 +12,15 @@ class Apple extends Fruits
      */
     public static $NAME = 'apple';
 
-
+    /**
+     * Constructor
+     * 
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->name = self::$NAME;
+        parent::__construct();
+    }
+    
 }

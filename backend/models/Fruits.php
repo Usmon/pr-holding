@@ -15,7 +15,6 @@ use app\models\abstracts\Fruit;
  * @property int $eat_percent
  * @property string $date_appearance
  * @property string $date_fall
- * @property string $deleted_at
  */
 class Fruits extends Fruit
 {
@@ -33,10 +32,14 @@ class Fruits extends Fruit
     public function rules()
     {
         return [
-            [['name', 'color', 'status', 'eat_percent'], 'required'],
-            [['status', 'eat_percent'], 'integer'],
-            [['date_appearance', 'date_fall', 'deleted_at'], 'safe'],
+            [['name', 'color'], 'required'],
+            [['status'], 'integer'],
+            [['date_appearance', 'date_fall'], 'safe'],
             [['name', 'color'], 'string', 'max' => 255],
+            [['eat_percent'], 'integer', 'min' => 0, 'max' => parent::EAT_PERCENT],
+            [['eat_percent'], 'default', 'value' => parent::EAT_PERCENT],
+            [['status'], 'default', 'value' => parent::STATUS_TREE],
+            ['date_fall', 'default', 'value' => NULL]
         ];
     }
 
@@ -52,8 +55,32 @@ class Fruits extends Fruit
             'status' => 'Status',
             'eat_percent' => 'Eat Percent',
             'date_appearance' => 'Date Appearance',
-            'date_fall' => 'Date Fall',
-            'deleted_at' => 'Deleted At',
+            'date_fall' => 'Date Fall'
         ];
+    }
+
+    public function getRotted()
+    {
+        return $this->checkRottenTime();
+    }
+
+    public function getStatusText()
+    {
+        return $this->getStatus();
+    }
+
+    public function getSize()
+    {
+        return number_format($this->size(), 1);
+    }
+
+    public function fall()
+    {
+        $this->fallToGround();
+    }
+    
+    public function setEat($value)
+    {
+        $this->eat($value);
     }
 }

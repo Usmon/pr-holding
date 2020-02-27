@@ -8,6 +8,7 @@ use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 
 /**
  * AppleController implements the CRUD actions for Apple model.
@@ -20,6 +21,16 @@ class AppleController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'actions' => ['index', 'create', 'update', 'delete', 'view', 'fall', 'eat'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -123,5 +134,36 @@ class AppleController extends Controller
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+    /**
+     * Fall to ground
+     * @param integer $id
+     * @throws NotFoundHttpException if the model cannot be found
+     * @return mixed Redirect to main page
+     */
+    public function actionFall($id) 
+    {
+        $model = $this->findModel($id);
+        $model->fall();
+
+        return $this->redirect(['index']);
+    }
+
+    /**
+     * Fall to ground
+     * @param integer $id
+     * @throws NotFoundHttpException if the model cannot be found
+     * @return mixed Redirect to main page
+     */
+    public function actionEat() 
+    {
+        $id = Yii::$app->request->post('id');
+        $eat = Yii::$app->request->post('percent');
+
+        $model = $this->findModel($id);
+        $model->setEat($eat);
+
+        return $this->redirect(['index']);
     }
 }
