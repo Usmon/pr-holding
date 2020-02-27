@@ -36,6 +36,8 @@ abstract class Fruit extends \yii\db\ActiveRecord
         {
             $this->eat_percent = $this->eat_percent - $percent;
             $this->update();
+            //Delete if percent 0
+            $this->deleteAfterEat();
         }
     }
 
@@ -93,7 +95,7 @@ abstract class Fruit extends \yii\db\ActiveRecord
      */
     protected function deleteAfterEat()
     {
-        if ($this->eat_percent >= self::EAT_PERCENT) {
+        if ($this->eat_percent <= 0) {
             $this->delete();
 
             return true;
