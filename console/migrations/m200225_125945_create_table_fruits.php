@@ -24,9 +24,8 @@ class m200225_125945_create_table_fruits extends Migration
             'color' => Schema::TYPE_STRING . ' NOT NULL',
             'status' => Schema::TYPE_INTEGER .' NOT NULL',
             'eat_percent' => Schema::TYPE_INTEGER .' NOT NULL',
-            'date_appearance' => Schema::TYPE_TIMESTAMP .' NOT NULL',
-            'date_fall' => Schema::TYPE_TIMESTAMP .' NOT NULL',
-            'deleted_at' => Schema::TYPE_TIMESTAMP .' NOT NULL'
+            'date_appearance' => Schema::TYPE_TIMESTAMP .' NULL',
+            'date_fall' => Schema::TYPE_TIMESTAMP,
         ]);
     }
 
